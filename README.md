@@ -19,6 +19,164 @@ A lightweight Spring Boot backend that powers the Dining-QR Ordering System, RES
 - Java 17+
 - Maven
 
+## API Endpoints
+
+### 🗂️ Category
+
+__➜ POST /v1/category__ - Creates a new category.
+
+__Request example__:
+```Json
+{
+  "name": "Hamburger",
+  "description": "Juicy, handcrafted burgers stacked with fresh toppings.",
+  "type": "MAIN"
+}
+```
+
+__Response example__:
+```Json
+{
+  "id": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+  "name": "Hamburger",
+  "description": "Juicy, handcrafted burgers stacked with fresh toppings.",
+  "type": "MAIN"
+}
+```
+
+__➜ GET /v1/category__ - Returns all categories.
+
+__Response example__:
+```Json
+[
+  {
+    "id": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+    "name": "Hamburger",
+    "description": "Juicy, handcrafted burgers stacked with fresh toppings.",
+    "type": "MAIN"
+  }
+]
+```
+ℹ️ __Possible values for "type"__: "APPETIZER", "MAIN", "SIDE", "DESSERT", "BEVERAGE", or "ALCOHOLIC_BEVERAGE"
+
+· · ·
+
+### 🍽️ Menu Item
+__➜ POST /v1/menu-item__ - Creates a new menu item.
+
+__Request example__:
+```Json
+{
+  "name": "Bacon BBQ Burger",
+  "description": "Smoked bacon, BBQ sauce, and crispy onions.",
+  "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+  "mainImage": "https://res.cloudinary.com/dhj7turyv/image/upload/v1767075301/bacon_bbq_burger_blu4gx.jpg",
+  "originalPrice": 15.99,
+  "tag": ["PEANUT_FREE"]
+}
+```
+
+__Response example__:
+```Json
+{
+  "id": "9ea7b44f-dc2c-4985-8d7c-671e2800ef33",
+  "name": "Bacon BBQ Burger",
+  "description": "Smoked bacon, BBQ sauce, and crispy onions.",
+  "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+  "mainImage": "https://res.cloudinary.com/dhj7turyv/image/upload/v1767075301/bacon_bbq_burger_blu4gx.jpg",
+  "originalPrice": 15.99,
+  "tag": ["PEANUT_FREE"]
+}
+```
+
+__➜ GET /v1/menu-item__ - Returns all menu items.
+
+```Json
+[
+  {
+    "id": "9ea7b44f-dc2c-4985-8d7c-671e2800ef33"
+    "name": "Bacon BBQ Burger",
+    "description": "Smoked bacon, BBQ sauce, and crispy onions.",
+    "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+    "mainImage": "https://res.cloudinary.com/dhj7turyv/image/upload/v1767075301/bacon_bbq_burger_blu4gx.jpg",
+    "originalPrice": 15.99,
+    "tag": ["PEANUT_FREE"]
+  }
+]
+```
+ℹ️ __Possible values for "tag"__: "SPICY", "VEGETARIAN", "HALAL", "KOSHER", "SEAFOOD", "SUGAR_FREE", "LACTOSE_FREE", "GLUTEN_FREE", "PEANUT_FREE", and null
+
+· · ·
+
+### 🧾 Order
+__➜ POST /v1/order__ - Creates a new order.
+
+__Request example__:
+```Json
+{
+  "items": [
+    {
+      "menuItemId": "9ea7b44f-dc2c-4985-8d7c-671e2800ef33",
+      "menuItemName": "Bacon BBQ Burger",
+      "menuItemType": "MAIN",
+      "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+      "categoryName": "Hamburger",
+      "subTotal": 15.99,
+      "tax": 2.08,
+      "total": 18.07
+    }
+  ]
+}
+```
+
+__Response example__:
+```Json
+{
+  "id": "b1f39366-07b0-4f14-9f55-76e03b077592",
+  "items": [
+    {
+      "id": "3207c68c-c8ac-4c62-a72e-ef25b13edb86",
+      "orderId": "b1f39366-07b0-4f14-9f55-76e03b077592",
+      "menuItemId": "9ea7b44f-dc2c-4985-8d7c-671e2800ef33",
+      "menuItemName": "Bacon BBQ Burger",
+      "menuItemType": "MAIN",
+      "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+      "categoryName": "Hamburger",
+      "subTotal": 15.99,
+      "tax": 2.08,
+      "total": 18.07
+    }
+  ],
+  "dateTime": "2026-01-01T07:00:00.040945"
+}
+```
+
+__➜ GET /v1/order__ - Returns all orders.
+
+__Response example__:
+```Json
+[
+  {
+    "id": "b1f39366-07b0-4f14-9f55-76e03b077592",
+    "items": [
+      {
+        "id": "3207c68c-c8ac-4c62-a72e-ef25b13edb86",
+        "orderId": "b1f39366-07b0-4f14-9f55-76e03b077592",
+        "menuItemId": "9ea7b44f-dc2c-4985-8d7c-671e2800ef33",
+        "menuItemName": "Bacon BBQ Burger",
+        "menuItemType": "MAIN",
+        "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+        "categoryName": "Hamburger",
+        "subTotal": 15.99,
+        "tax": 2.08,
+        "total": 18.07
+      }
+    ],
+    "dateTime": "2026-01-01T07:00:00.040945"
+  }
+]
+```
+
 ## License
 
 This project is for portfolio and demonstration purposes.
