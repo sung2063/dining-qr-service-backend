@@ -31,7 +31,7 @@ public class MenuItemController {
         this.menuItemRepository = menuItemRepository;
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping
     public List<MenuItem> getMenuItems(@RequestParam(required = false) String categoryId) {
         if (categoryId != null) {
             return menuItemRepository.findByCategoryId(UUID.fromString(categoryId));
