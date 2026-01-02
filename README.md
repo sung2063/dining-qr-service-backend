@@ -112,7 +112,8 @@ __Response example__:
 }
 ```
 
-__➜ GET /v1/menu-item__ - Returns all menu items.
+__➜ GET /v1/menu-item__ - Returns all menu items.<br>
+__➜ GET /v1/menu-item?categoryId={categoryId}__ - Returns the menu items under the specified category ID.
 
 ```Json
 [
@@ -198,6 +199,30 @@ __Response example__:
     "dateTime": "2026-01-01T07:00:00.040945"
   }
 ]
+```
+
+__➜ GET /v1/order/{orderId}__ - Returns the order data for the specified order ID.
+
+__Response example__:
+```Json
+{
+   "id": "b1f39366-07b0-4f14-9f55-76e03b077592",
+   "items": [
+      {
+         "id": "3207c68c-c8ac-4c62-a72e-ef25b13edb86",
+         "orderId": "b1f39366-07b0-4f14-9f55-76e03b077592",
+         "menuItemId": "9ea7b44f-dc2c-4985-8d7c-671e2800ef33",
+         "menuItemName": "Bacon BBQ Burger",
+         "menuItemType": "MAIN",
+         "categoryId": "0e46e52a-40f0-4a12-9165-8b3046a88323",
+         "categoryName": "Hamburger",
+         "subTotal": 15.99,
+         "tax": 2.08,
+         "total": 18.07
+      }
+   ],
+   "dateTime": "2026-01-01T07:00:00.040945"
+}
 ```
 
 ## License
