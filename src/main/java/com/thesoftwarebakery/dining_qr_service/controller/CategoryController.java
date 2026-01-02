@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("v1/category")
@@ -40,32 +39,26 @@ public class CategoryController {
     public Category createCategory(@RequestBody Category category) {
         return categoryRepository.save(category);
     }
-    
+
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Category getMethodName(@RequestParam String id) {
-        return categoryRepository.findById(UUID.fromString(id))
-            .orElse(null);
-    }
-    
     @PutMapping("/{id}")
     public Category updateCategory(@PathVariable String id, @RequestBody Category updatingCategory) {
         return categoryRepository.findById(UUID.fromString(id))
-            .map(category -> {
-                category.setName(updatingCategory.getName());
-                category.setDescription(updatingCategory.getDescription());
-                category.setType(updatingCategory.getType());
-                return categoryRepository.save(category);
-            }).orElse(null);
+                .map(category -> {
+                    category.setName(updatingCategory.getName());
+                    category.setDescription(updatingCategory.getDescription());
+                    category.setType(updatingCategory.getType());
+                    return categoryRepository.save(category);
+                }).orElse(null);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable String id) {
         categoryRepository.deleteById(UUID.fromString(id));
     }
-    
+
 }
