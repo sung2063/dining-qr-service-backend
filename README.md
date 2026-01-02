@@ -224,6 +224,7 @@ __Response example__:
    "dateTime": "2026-01-01T07:00:00.040945"
 }
 ```
+This project includes a static OpenAPI specification: [OpenAPI YAML](https://github.com/sung2063/dining-qr-service-backend/blob/main/docs/openapi.yaml)
 
 ## License
 
