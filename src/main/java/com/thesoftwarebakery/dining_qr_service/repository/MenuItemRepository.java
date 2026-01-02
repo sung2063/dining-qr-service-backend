@@ -14,7 +14,11 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.thesoftwarebakery.dining_qr_service.data.MenuItem;
+import java.util.List;
+
 
 public interface MenuItemRepository extends JpaRepository<MenuItem, UUID> {
+
+    List<MenuItem> findByCategoryId(UUID categoryId);
     
 }

@@ -10,19 +10,21 @@
 package com.thesoftwarebakery.dining_qr_service.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thesoftwarebakery.dining_qr_service.data.MenuItem;
 import com.thesoftwarebakery.dining_qr_service.repository.MenuItemRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("v1/menu-item")
 public class MenuItemController {
-    
+
     private final MenuItemRepository menuItemRepository;
 
     public MenuItemController(MenuItemRepository menuItemRepository) {
@@ -33,5 +35,10 @@ public class MenuItemController {
     public List<MenuItem> getAllMenuItems() {
         return menuItemRepository.findAll();
     }
-    
+
+    @GetMapping("/{categoryId}")
+    public List<MenuItem> getMenuItemsByCategoryId(@RequestParam String categoryId) {
+        return menuItemRepository.findByCategoryId(UUID.fromString(categoryId));
+    }
+
 }
