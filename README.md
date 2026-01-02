@@ -3,8 +3,8 @@
 A lightweight Spring Boot backend that powers the Dining-QR Ordering System, REST APIs for menu retrieval and order submission. Built with a clean, modular structure to support the MVP version of the platform.
 
 ![Java](https://img.shields.io/badge/Java-007396?logo=java&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apachemaven&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 
 ## Features
@@ -18,8 +18,29 @@ A lightweight Spring Boot backend that powers the Dining-QR Ordering System, RES
 
 - Java 17+
 - Maven
-- PostgreSQL
 - Spring Boot
+- PostgreSQL
+
+## Setup & Run
+
+1. <b>Clone the repository</b>
+2. <b>Set up the database</b>
+   1. Start your PostgreSQL server
+   2. Create a new database (example: dining_qr_db)
+3. <b>Create your local configuration file</b><br>
+This project uses a local Spring profile for development.
+<br>Since `application-local.yaml` contains credentials, it is __not included in the repository__.
+<br>Create the file manually at `src/main/resources/application-local.yaml` and add your PostgreSQL settings:
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/<DB_NAME>
+    username: <USERNAME>
+    password: <PASSWORD>
+```
+4. <b>Run the application</b><br>
+Open the main class `DiningQrServiceApplication.java` and run the Spring Boot application. 
+When the application starts, it will automatically insert the preloaded sample data into your PostgreSQL database.
 
 ## API Endpoints
 
