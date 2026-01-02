@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thesoftwarebakery.dining_qr_service.data.Order;
@@ -69,5 +71,16 @@ public class OrderController {
             ordersResponse.add(orderReposponse);
         });
         return ordersResponse;
+    }
+
+    @GetMapping("/{orderId}")
+    public OrderResponse getDiningOrderByOrderId(@PathVariable String orderId) {
+        return diningOrderRepository.findById(UUID.fromString(orderId)).map(diningOrder -> {
+            OrderResponse orderReposponse = new OrderResponse();
+            orderReposponse.setId(diningOrder.getId());
+            orderReposponse.setItems(orderItemRepository.findByOrderId(diningOrder.getId()));
+            orderReposponse.setDateTime(diningOrder.getOrderedDateTime());
+            return orderReposponse;
+        }).orElseThrow(() -> new RuntimeException("Order not found"));
     }
 }
