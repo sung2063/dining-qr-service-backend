@@ -28,6 +28,10 @@ import com.thesoftwarebakery.dining_qr_service.data.response.OrderResponse;
 import com.thesoftwarebakery.dining_qr_service.repository.OrderItemRepository;
 import com.thesoftwarebakery.dining_qr_service.repository.OrderRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Order", description = "Operations related to orders.")
 @RestController
 @RequestMapping("v1/order")
 public class OrderController {
@@ -41,6 +45,7 @@ public class OrderController {
         this.orderItemRepository = orderItemRepository;
     }
 
+    @Operation(summary = "Create an order.")
     @PostMapping
     public OrderResponse createDiningOrder(@RequestBody OrderRequest orderRequest) {
         OrderResponse response = new OrderResponse();
@@ -59,6 +64,7 @@ public class OrderController {
         return response;
     }
 
+    @Operation(summary = "Return all order data.")
     @GetMapping
     public List<OrderResponse> getAllDiningOrder() {
         List<OrderResponse> ordersResponse = new ArrayList<>();
@@ -72,6 +78,7 @@ public class OrderController {
         return ordersResponse;
     }
 
+    @Operation(summary = "Return the order data for the specified order ID.")
     @GetMapping("/{orderId}")
     public OrderResponse getDiningOrderByOrderId(@PathVariable String orderId) {
         return diningOrderRepository.findById(UUID.fromString(orderId)).map(diningOrder -> {

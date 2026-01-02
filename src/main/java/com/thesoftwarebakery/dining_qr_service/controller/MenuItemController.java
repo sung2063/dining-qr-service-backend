@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thesoftwarebakery.dining_qr_service.data.MenuItem;
 import com.thesoftwarebakery.dining_qr_service.repository.MenuItemRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+@Tag(name = "Menu Item", description = "Operations related to menu items.")
 @RestController
 @RequestMapping("v1/menu-item")
 public class MenuItemController {
@@ -31,6 +37,13 @@ public class MenuItemController {
         this.menuItemRepository = menuItemRepository;
     }
 
+    @Operation(summary = "Create a menu item.")
+    @PostMapping
+    public MenuItem createMenuItem(@RequestBody MenuItem menuItem) {
+        return menuItemRepository.save(menuItem);
+    }
+
+    @Operation(summary = "Return the menu items for the specified category ID. If none exist, return all menu items.")
     @GetMapping
     public List<MenuItem> getMenuItems(@RequestParam(required = false) String categoryId) {
         if (categoryId != null) {
