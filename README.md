@@ -1,6 +1,6 @@
 # Dining-QR Backend Service (MVP)
 
-A lightweight Spring Boot backend that powers the Dining-QR Ordering System, REST APIs for menu retrieval and order submission. Built with a clean, modular structure to support the MVP version of the platform.
+A lightweight Spring Boot backend that drives the Dining‑QR Ordering System, providing REST APIs for menu retrieval and order submission. The project uses PostgreSQL configured to simulate a cloud‑hosted database environment, reflecting the production architecture where the database runs in the cloud. Designed with a modular, maintainable architecture to support the MVP version of the platform.
 
 ![Java](https://img.shields.io/badge/Java-007396?logo=java&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?logo=apachemaven&logoColor=white)
