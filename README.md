@@ -18,6 +18,8 @@ A lightweight Spring Boot backend that powers the Dining-QR Ordering System, RES
 
 - Java 17+
 - Maven
+- PostgreSQL
+- Spring Boot
 
 ## API Endpoints
 
