@@ -1,0 +1,251 @@
+openapi: 3.0.1
+info:
+  title: Dining-QR Ordering System API
+  description: API documentation for the MVP version of the Dining‑QR ordering platform.
+  version: "1.0"
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: Menu Item
+  description: Operations related to menu items.
+- name: Category
+  description: Operations related to categories.
+- name: Order
+  description: Operations related to orders.
+paths:
+  /v1/order:
+    get:
+      tags:
+      - Order
+      summary: Return all order data.
+      operationId: getAllDiningOrder
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+    post:
+      tags:
+      - Order
+      summary: Create an order.
+      operationId: createDiningOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
+  /v1/menu-item:
+    get:
+      tags:
+      - Menu Item
+      summary: "Return the menu items for the specified category ID. If none exist,\
+        \ return all menu items."
+      operationId: getMenuItems
+      parameters:
+      - name: categoryId
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MenuItem"
+    post:
+      tags:
+      - Menu Item
+      summary: Create a menu item.
+      operationId: createMenuItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MenuItem"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MenuItem"
+  /v1/category:
+    get:
+      tags:
+      - Category
+      summary: Return all categories.
+      operationId: getAllCategories
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+    post:
+      tags:
+      - Category
+      summary: Create a category.
+      operationId: createCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Category"
+  /v1/order/{orderId}:
+    get:
+      tags:
+      - Order
+      summary: Return the order data for the specified order ID.
+      operationId: getDiningOrderByOrderId
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
+components:
+  schemas:
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        menuItemId:
+          type: string
+          format: uuid
+        menuItemName:
+          type: string
+        menuItemType:
+          type: string
+          enum:
+          - APPETIZER
+          - MAIN
+          - SIDE
+          - DESSERT
+          - BEVERAGE
+          - ALCOHOLIC_BEVERAGE
+        categoryId:
+          type: string
+          format: uuid
+        categoryName:
+          type: string
+        subTotal:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        total:
+          type: number
+          format: float
+    OrderRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+    OrderResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItem"
+        dateTime:
+          type: string
+          format: date-time
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        mainImage:
+          type: string
+        originalPrice:
+          type: number
+          format: float
+        tags:
+          type: array
+          items:
+            type: string
+            enum:
+            - SPICY
+            - VEGETARIAN
+            - HALAL
+            - KOSHER
+            - SEAFOOD
+            - SUGAR_FREE
+            - LACTOSE_FREE
+            - GLUTEN_FREE
+            - PEANUT_FREE
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+          - APPETIZER
+          - MAIN
+          - SIDE
+          - DESSERT
+          - BEVERAGE
+          - ALCOHOLIC_BEVERAGE
