@@ -23,6 +23,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
@@ -34,18 +35,21 @@ public class MenuItem {
     @GeneratedValue
     private UUID id;
 
+    @NotBlank(message = "Name must not be blank.")
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
 
+    @NotBlank(message = "Category id must not be blank.")
     @Column(name = "category_id")
     private UUID categoryId;
 
     @Column(name = "main_image")
     private String mainImage;
 
+    @NotBlank(message = "Original price must not be blank.")
     @Column(name = "original_price", nullable = false)
     private float originalPrice;
 

@@ -20,6 +20,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
@@ -31,12 +32,14 @@ public class Category {
     @GeneratedValue
     private UUID id;
     
+    @NotBlank(message = "Name must not be blank")
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
     
+    @NotBlank(message = "Type must not be blank")
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private MenuItemType type;

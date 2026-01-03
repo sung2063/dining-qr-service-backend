@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thesoftwarebakery.dining_qr_service.common.error.ResourceNotFoundException;
 import com.thesoftwarebakery.dining_qr_service.data.Order;
 import com.thesoftwarebakery.dining_qr_service.data.OrderItem;
 import com.thesoftwarebakery.dining_qr_service.data.request.OrderRequest;
@@ -67,26 +68,27 @@ public class OrderController {
     @Operation(summary = "Return all order data.")
     @GetMapping
     public List<OrderResponse> getAllDiningOrder() {
-        List<OrderResponse> ordersResponse = new ArrayList<>();
-        diningOrderRepository.findAll().forEach(diningOrder -> {
-            OrderResponse orderReposponse = new OrderResponse();
-            orderReposponse.setId(diningOrder.getId());
-            orderReposponse.setItems(orderItemRepository.findByOrderId(diningOrder.getId()));
-            orderReposponse.setDateTime(diningOrder.getOrderedDateTime());
-            ordersResponse.add(orderReposponse);
-        });
+        List<OrderResponse> ordersResponse = diningOrderRepository.findAll().stream().map(this::orderToOrderResponse)
+                .toList();
+        if (ordersResponse.isEmpty()) {
+            throw new ResourceNotFoundException("No dining orders found");
+        }
         return ordersResponse;
     }
 
     @Operation(summary = "Return the order data for the specified order ID.")
     @GetMapping("/{orderId}")
     public OrderResponse getDiningOrderByOrderId(@PathVariable String orderId) {
-        return diningOrderRepository.findById(UUID.fromString(orderId)).map(diningOrder -> {
-            OrderResponse orderReposponse = new OrderResponse();
-            orderReposponse.setId(diningOrder.getId());
-            orderReposponse.setItems(orderItemRepository.findByOrderId(diningOrder.getId()));
-            orderReposponse.setDateTime(diningOrder.getOrderedDateTime());
-            return orderReposponse;
-        }).orElseThrow(() -> new RuntimeException("Order not found"));
+        return diningOrderRepository.findById(UUID.fromString(orderId))
+                .map(diningOrder -> orderToOrderResponse(diningOrder))
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found for orderId: " + orderId));
+    }
+
+    private OrderResponse orderToOrderResponse(Order diningOrder) {
+        OrderResponse orderReposponse = new OrderResponse();
+        orderReposponse.setId(diningOrder.getId());
+        orderReposponse.setItems(orderItemRepository.findByOrderId(diningOrder.getId()));
+        orderReposponse.setDateTime(diningOrder.getOrderedDateTime());
+        return orderReposponse;
     }
 }

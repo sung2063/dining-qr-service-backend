@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thesoftwarebakery.dining_qr_service.common.error.ResourceNotFoundException;
 import com.thesoftwarebakery.dining_qr_service.data.MenuItem;
 import com.thesoftwarebakery.dining_qr_service.repository.MenuItemRepository;
 
@@ -43,13 +44,20 @@ public class MenuItemController {
         return menuItemRepository.save(menuItem);
     }
 
-    @Operation(summary = "Return the menu items for the specified category ID. If none exist, return all menu items.")
+    @Operation(summary = "Return menu items filtered by category ID when provided. Throw an error if no items are found.")
     @GetMapping
     public List<MenuItem> getMenuItems(@RequestParam(required = false) String categoryId) {
-        if (categoryId != null) {
-            return menuItemRepository.findByCategoryId(UUID.fromString(categoryId));
+        List<MenuItem> menuItems = (categoryId != null)
+                ? menuItemRepository.findByCategoryId(UUID.fromString(categoryId))
+                : menuItemRepository.findAll();
+
+        if (menuItems.isEmpty()) {
+            String message = (categoryId != null)
+                    ? "No menu items found for category: " + categoryId
+                    : "No menu items found";
+            throw new ResourceNotFoundException(message);
         }
-        return menuItemRepository.findAll();
+        return menuItems;
     }
 
 }
